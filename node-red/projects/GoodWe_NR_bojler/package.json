@@ -1,0 +1,12 @@
+{
+    "name": "GoodWe_NR_bojler",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "dependencies": {},
+    "node-red": {
+        "settings": {
+            "flowFile": "bojler.json",
+            "credentialsFile": "bojler_cred.json"
+        }
+    }
+}
