@@ -1,2 +1,2 @@
 
-wget -O - https://get.hacs.xyz | bash - 
+# wget -O - https://get.hacs.xyz | bash - 
