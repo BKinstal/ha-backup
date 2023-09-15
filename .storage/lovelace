@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace",
+  "data": {
+    "config": {
+      "title": "Domov",
+      "views": [
+        {
+          "path": "default_view",
+          "title": "Home",
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "person.admin"
+              ]
+            },
+            {
+              "type": "media-control",
+              "entity": "media_player.nest"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.hacs"
+              ],
+              "title": "Senzor"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
