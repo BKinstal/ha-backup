@@ -1,0 +1,131 @@
+utility_meter:
+  # VYROBENO / rok
+  gw_yearly_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_yearly_solar_energy_ha"
+    unique_id: gw_yearly_solar_energy_id
+    cycle: yearly
+
+  # NABITO / rok
+  gw_yearly_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_yearly_battery_in_energy_ha"
+    unique_id: gw_yearly_battery_in_energy_id
+    cycle: yearly
+
+  # VYBITO / rok
+  gw_yearly_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_yearly_battery_out_energy_ha"
+    unique_id: gw_yearly_battery_out_energy_id
+    cycle: yearly
+
+  # SPOTREBA / rok
+  gw_yearly_consumption:
+    source: sensor.today_load
+    name: "gw_yearly_consumption_ha"
+    unique_id: gw_yearly_consumption_id
+    cycle: yearly
+
+  # IMPORT ENERGY / rok
+  gw_yearly_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_yearly_import_energy_ha"
+    unique_id: gw_yearly_import_energy_id
+    cycle: yearly
+
+  # EXPORT ENERGY / rok
+  gw_yearly_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_yearly_export_energy_ha"
+    unique_id: gw_yearly_export_energy_id
+    cycle: yearly
+
+  # IMPORT CENA / rok
+  gw_yearly_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_yearly_import_price_ha"
+    unique_id: gw_yearly_import_price_id
+    cycle: yearly
+
+  # EXPORT CENA / rok
+  gw_yearly_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_yearly_export_price_ha"
+    unique_id: gw_yearly_export_price_spot_id
+    cycle: yearly
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / rok - round
+      - name: "Vyrobeno / rok"
+        unique_id: "vyrobeno_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_yearly_solar_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_solar_energy_ha')) }}"
+
+        # NABITO / rok - round
+      - name: "Nabito / rok"
+        unique_id: "nabito_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_yearly_battery_in_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_battery_in_energy_ha')) }}"
+
+        # VYBITO / rok - round
+      - name: "Vybito / rok"
+        unique_id: "vybito_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_yearly_battery_out_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_battery_out_energy_ha')) }}"
+
+      # SPOTREBA / rok - round
+      - name: "Spotřeba / rok"
+        unique_id: "spotreba_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_yearly_consumption_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_consumption_ha')) }}"
+
+        # IMPORT / rok - round
+      - name: "Import / rok"
+        unique_id: "import_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_yearly_import_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_import_energy_ha')) }}"
+
+        # EXPORT / rok - round
+      - name: "Export / rok"
+        unique_id: "export_rok_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_yearly_export_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_export_energy_ha')) }}"
+
+        # KOUPENO / rok - round
+      - name: "Koupeno / rok"
+        unique_id: "koupeno_rok_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_yearly_import_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_import_price_ha')) }}"
+
+        # PRODANO / rok - round
+      - name: "Prodáno / rok"
+        unique_id: "prodano_rok_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_yearly_export_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_yearly_export_price_ha')) }}"

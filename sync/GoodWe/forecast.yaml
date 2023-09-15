@@ -1,0 +1,19 @@
+
+
+
+sensor:
+  - platform: average
+    name: 'Předpověd produkce dnes'
+    duration:
+      hours: 3
+    entities:
+      - sensor.energy_production_today        
+    precision: 0
+    
+  - platform: average
+    name: 'Předpověd produkce zítra'
+    duration:
+      hours: 3
+    entities:
+      - sensor.energy_production_tomorrow        
+    precision: 0    

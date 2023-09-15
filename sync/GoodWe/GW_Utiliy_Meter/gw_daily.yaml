@@ -1,0 +1,135 @@
+utility_meter:
+  # VYROBENO / DEN
+  gw_daily_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_daily_solar_energy_ha"
+    unique_id: gw_daily_solar_energy_id
+    cycle: daily
+
+  # NABITO / DEN
+  gw_daily_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_daily_battery_in_energy_ha"
+    unique_id: gw_daily_battery_in_energy_id
+    cycle: daily
+
+  # VYBITO / DEN
+  gw_daily_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_daily_battery_out_energy_ha"
+    unique_id: gw_daily_battery_out_energy_id
+    cycle: daily
+
+  # SPOTREBA / DEN
+  gw_daily_consumption:
+    source: sensor.today_load
+    name: "gw_daily_consumption_ha"
+    unique_id: gw_daily_consumption_id
+    cycle: daily
+
+  # IMPORT ENERGY / DEN
+  gw_daily_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_daily_import_energy_ha"
+    unique_id: gw_daily_import_energy_id
+    cycle: daily
+
+  # EXPORT ENERGY / DEN
+  gw_daily_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_daily_export_energy_ha"
+    unique_id: gw_daily_export_energy_id
+    cycle: daily
+
+  # IMPORT CENA / DEN
+  gw_daily_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_daily_import_price_ha"
+    unique_id: gw_daily_import_price_id
+    cycle: daily
+
+  # EXPORT CENA / DEN
+  gw_daily_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_daily_export_price_ha"
+    unique_id: gw_daily_export_price_spot_id
+    cycle: daily
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / DEN - round
+      - name: "Vyrobeno / den"
+        unique_id: "vyrobeno_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_daily_solar_energy_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_solar_energy_ha')) }}"
+
+        # NABITO / DEN - round
+      - name: "Nabito / den"
+        unique_id: "nabito_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_daily_battery_in_energy_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_battery_in_energy_ha')) }}"
+        
+        # VYBITO / DEN - round
+      - name: "Vybito / den"
+        unique_id: "vybito_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_daily_battery_out_energy_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_battery_out_energy_ha')) }}"
+
+      # SPOTREBA / DEN - round
+      - name: "Spotřeba / den"
+        unique_id: "spotreba_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_daily_consumption_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_consumption_ha')) }}"
+        
+        # IMPORT / DEN - round
+      - name: "Import / den"
+        unique_id: "import_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_daily_import_energy_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_import_energy_ha')) }}"
+        
+        # EXPORT / DEN - round
+      - name: "Export / den"
+        unique_id: "export_den_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_daily_export_energy_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_export_energy_ha')) }}"
+        
+        # KOUPENO / DEN - round
+      - name: "Koupeno / den"
+        unique_id: "koupeno_den_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_daily_import_price_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_import_price_ha')) }}"
+        
+        # PRODANO / DEN - round
+      - name: "Prodáno / den"
+        unique_id: "prodano_den_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_daily_export_price_ha.state) | float | round(1)}}"
+        availability: "{{ is_number(states('sensor.gw_daily_export_price_ha')) }}"
+        
+        
+        
+        

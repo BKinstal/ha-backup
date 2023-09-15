@@ -1,0 +1,113 @@
+# CENA ZA NAKUP 1kWh - FIX
+input_number:
+  price_per_kwh_import:
+    name: "Cena kWh za nákup (FIX)"
+    icon: mdi:currency-usd
+    unit_of_measurement: "Kč"
+    min: 0
+    max: 10
+    step: 0.1
+
+  # CENA ZA DISTRIBUCI - rocni
+  price_per_distribution:
+    name: "Roční cena za distribuci"
+    icon: mdi:currency-usd
+    unit_of_measurement: "Kč"
+    min: 0
+    max: 10000
+    step: 100
+
+  # CENA ZA PRODEJ 1kWh - FIX
+  price_per_kwh_export:
+    name: "Cena kWh za prodej (FIX)"
+    icon: mdi:currency-usd
+    unit_of_measurement: "Kč"
+    min: 0
+    max: 10
+    step: 0.1
+
+input_boolean:
+  boolean_import_price_is_spot: # prepinac mezi import cenou za fix a spot
+    name: Nákup za SPOT
+    icon: mdi:currency-usd
+  boolean_export_price_is_spot: # prepinac mezi export cenou za fix a spot
+    name: Prodej za SPOT
+    icon: mdi:currency-usd
+
+template:
+  - sensor:
+      # Cena SPOTu (hodina) - ROUNDED - zaokrouhleno pro zobrazovani v lovelace
+      - name: "goodwe current spot electricity price"
+        unique_id: "yearly_energy_solar_rounded"
+        unit_of_measurement: "Kč"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.current_spot_electricity_price.state) | float | round(2)}}"
+        availability: "{{ is_number(states('sensor.current_spot_electricity_price')) }}"
+
+      - name: "Price per kwh export sensor" # zpracuje input_number na sensor aby s nim bylo mozne pracovat v export_price_sensor_id
+        state: "{{ states('input_number.price_per_kwh_export') }}"
+      - name: "Export Price Sensor" # vysledny senzor ceny pro export - prepina mezi fix a spot pomoci input_boolean.boolean_export_price_is_spot
+        unique_id: "export_price_sensor_id"
+        unit_of_measurement: "Kč/kWh"
+        icon: mdi:currency-usd
+        state: >-
+          {% if is_state('input_boolean.boolean_export_price_is_spot', 'on') %}
+            {{ states('sensor.current_spot_electricity_price') }}
+          {% else %}
+            {{ states('sensor.price_per_kwh_export_sensor') }}
+          {% endif %}
+        availability: >-
+          {% if is_state('input_boolean.boolean_export_price_is_spot', 'on') %}
+            {{ is_number(states('sensor.goodwe_current_spot_electricity_price')) }}
+          {% else %}
+            {{ is_number(states('sensor.price_per_kwh_export_sensor')) }}
+          {% endif %}
+
+      - name: "Price per kwh import sensor" # zpracuje input_number na sensor aby s nim bylo mozne pracovat v import_price_sensor_id
+        state: "{{ states('input_number.price_per_kwh_import') }}"
+      - name: "Import Price Sensor" # vysledny senzor ceny pro import - prepina mezi fix a spot pomoci input_boolean.boolean_import_price_is_spot
+        unique_id: "import_price_sensor_id"
+        unit_of_measurement: "Kč/kWh"
+        icon: mdi:currency-usd
+        state: >-
+          {% if is_state('input_boolean.boolean_import_price_is_spot', 'on') %}
+            {{ states('sensor.current_spot_electricity_price') }}
+          {% else %}
+            {{ states('sensor.price_per_kwh_import_sensor') }}
+          {% endif %}
+        availability: >-
+          {% if is_state('input_boolean.boolean_import_price_is_spot', 'on') %}
+            {{ is_number(states('sensor.goodwe_current_spot_electricity_price')) }}
+          {% else %}
+            {{ is_number(states('sensor.price_per_kwh_import_sensor')) }}
+          {% endif %}
+
+
+
+  # CENA ZA kWh s distribuci - NAKUP
+  - sensor:
+      - name: "GoodWe Yearly Price FIX Import With Distribution HA"
+        unique_id: GoodWe_yearly_price_fix_import_with_distribution_ha
+        unit_of_measurement: "CZK"
+        icon: mdi:currency-usd
+        state: >
+          {% if states('sensor.GoodWe_yearly_import_energy') != 'unknown' and states('input_number.price_per_kwh') != 'unknown' and states('input_number.price_per_distribution') != 'unknown' %}
+            {{(states('sensor.GoodWe_yearly_import_energy') | float(0)) * (states('input_number.price_per_kwh') | float(0)) + (states('input_number.price_per_distribution') | float(0))}}
+          {% else %}
+            unknown
+          {% endif %}
+
+  # CENA ZA kWh - NAKUP
+  - sensor:
+      - name: "GoodWe Yearly Price FIX Import HA"
+        unique_id: GoodWe_yearly_price_fix_import_ha
+        unit_of_measurement: "CZK"
+        icon: mdi:currency-usd
+        state: >
+          {% if states('sensor.GoodWe_yearly_import_energy') != 'unknown' and states('input_number.price_per_kwh') != 'unknown' %}
+            {{(states('sensor.GoodWe_yearly_import_energy') | float(0)) * (states('input_number.price_per_kwh') | float(0))}}
+          {% else %}
+            unknown
+          {% endif %}
+

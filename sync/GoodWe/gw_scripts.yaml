@@ -1,0 +1,76 @@
+# Example configuration.yaml entry
+script:
+  reset_all_stats:
+    sequence:
+      - service: utility_meter.calibrate
+        data:
+          value: "0"
+        target:
+          entity_id:
+            - sensor.gw_daily_solar_energy_ha
+            - sensor.gw_daily_battery_in_energy_ha
+            - sensor.gw_daily_battery_out_energy_ha
+            - sensor.gw_daily_consumption_ha
+            - sensor.gw_daily_import_energy_ha
+            - sensor.gw_daily_export_energy_ha
+            - sensor.gw_daily_import_price_ha
+            - sensor.gw_daily_export_price_ha
+            - sensor.gw_weekly_solar_energy_ha
+            - sensor.gw_weekly_battery_in_energy_ha
+            - sensor.gw_weekly_battery_out_energy_ha
+            - sensor.gw_weekly_consumption_ha
+            - sensor.gw_weekly_import_energy_ha
+            - sensor.gw_weekly_export_energy_ha
+            - sensor.gw_weekly_import_price_ha
+            - sensor.gw_weekly_export_price_ha
+            - sensor.gw_monthly_solar_energy_ha
+            - sensor.gw_monthly_battery_in_energy_ha
+            - sensor.gw_monthly_battery_out_energy_ha
+            - sensor.gw_monthly_consumption_ha
+            - sensor.gw_monthly_import_energy_ha
+            - sensor.gw_monthly_export_energy_ha
+            - sensor.gw_monthly_import_price_ha
+            - sensor.gw_monthly_export_price_ha
+            - sensor.gw_yearly_solar_energy_ha
+            - sensor.gw_yearly_battery_in_energy_ha
+            - sensor.gw_yearly_battery_out_energy_ha
+            - sensor.gw_yearly_consumption_ha
+            - sensor.gw_yearly_import_energy_ha
+            - sensor.gw_yearly_export_energy_ha
+            - sensor.gw_yearly_import_price_ha
+            - sensor.gw_yearly_export_price_ha
+    mode: single
+
+  reset_total_stats:
+    sequence:
+      - service: utility_meter.calibrate
+        data:
+          value: "0"
+        target:
+          entity_id:
+            - sensor.gw_total_solar_energy_ha
+            - sensor.gw_total_battery_in_energy_ha
+            - sensor.gw_total_battery_out_energy_ha
+            - sensor.gw_total_consumption_ha
+            - sensor.gw_total_import_energy_ha
+            - sensor.gw_total_export_energy_ha
+            - sensor.gw_total_import_price_ha
+            - sensor.gw_total_export_price_ha
+    mode: single
+
+  reset_custom_stats:
+    sequence:
+      - service: utility_meter.calibrate
+        data:
+          value: "0"
+        target:
+          entity_id:
+            - sensor.gw_custom_solar_energy_ha
+            - sensor.gw_custom_battery_in_energy_ha
+            - sensor.gw_custom_battery_out_energy_ha
+            - sensor.gw_custom_consumption_ha
+            - sensor.gw_custom_import_energy_ha
+            - sensor.gw_custom_export_energy_ha
+            - sensor.gw_custom_import_price_ha
+            - sensor.gw_custom_export_price_ha
+    mode: single

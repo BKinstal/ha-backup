@@ -1,0 +1,136 @@
+utility_meter:
+  # VYROBENO / měsíc
+  gw_monthly_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_monthly_solar_energy_ha"
+    unique_id: gw_monthly_solar_energy_id
+    cycle: monthly
+
+  # NABITO / měsíc
+  gw_monthly_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_monthly_battery_in_energy_ha"
+    unique_id: gw_monthly_battery_in_energy_id
+    cycle: monthly
+
+  # VYBITO / měsíc
+  gw_monthly_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_monthly_battery_out_energy_ha"
+    unique_id: gw_monthly_battery_out_energy_id
+    cycle: monthly
+
+  # SPOTREBA / měsíc
+  gw_monthly_consumption:
+    source: sensor.today_load
+    name: "gw_monthly_consumption_ha"
+    unique_id: gw_monthly_consumption_id
+    cycle: monthly
+
+  # IMPORT ENERGY / měsíc
+  gw_monthly_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_monthly_import_energy_ha"
+    unique_id: gw_monthly_import_energy_id
+    cycle: monthly
+
+  # EXPORT ENERGY / měsíc
+  gw_monthly_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_monthly_export_energy_ha"
+    unique_id: gw_monthly_export_energy_id
+    cycle: monthly
+
+  # IMPORT CENA / měsíc
+  gw_monthly_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_monthly_import_price_ha"
+    unique_id: gw_monthly_import_price_id
+    cycle: monthly
+
+  # EXPORT CENA / měsíc
+  gw_monthly_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_monthly_export_price_ha"
+    unique_id: gw_monthly_export_price_spot_id
+    cycle: monthly
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / měsíc - round
+      - name: "Vyrobeno / měsíc"
+        unique_id: "vyrobeno_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_monthly_solar_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_solar_energy_ha')) }}"
+        
+        # NABITO / měsíc - round
+      - name: "Nabito / měsíc"
+        unique_id: "nabito_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_monthly_battery_in_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_battery_in_energy_ha')) }}"
+        
+        # VYBITO / měsíc - round
+      - name: "Vybito / měsíc"
+        unique_id: "vybito_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_monthly_battery_out_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_battery_out_energy_ha')) }}"
+        
+      # SPOTREBA / měsíc - round
+      - name: "Spotřeba / měsíc"
+        unique_id: "spotreba_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_monthly_consumption_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_consumption_ha')) }}"
+        
+        # IMPORT / měsíc - round
+      - name: "Import / měsíc"
+        unique_id: "import_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_monthly_import_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_import_energy_ha')) }}"
+        
+        # EXPORT / měsíc - round
+      - name: "Export / měsíc"
+        unique_id: "export_mesic_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_monthly_export_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_export_energy_ha')) }}"
+        
+        # KOUPENO / měsíc - round
+      - name: "Koupeno / měsíc"
+        unique_id: "koupeno_mesic_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_monthly_import_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_import_price_ha')) }}"
+        
+        # PRODANO / měsíc - round
+      - name: "Prodáno / měsíc"
+        unique_id: "prodano_mesic_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_monthly_export_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_monthly_export_price_ha')) }}"
+        
+        
+        
+        
+        

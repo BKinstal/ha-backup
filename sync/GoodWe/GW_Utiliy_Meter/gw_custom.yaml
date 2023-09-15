@@ -1,0 +1,128 @@
+utility_meter:
+  # VYROBENO / vlastni
+  gw_custom_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_custom_solar_energy_ha"
+    unique_id: gw_custom_solar_energy_id
+
+  # NABITO / vlastni
+  gw_custom_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_custom_battery_in_energy_ha"
+    unique_id: gw_custom_battery_in_energy_id
+
+  # VYBITO / vlastni
+  gw_custom_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_custom_battery_out_energy_ha"
+    unique_id: gw_custom_battery_out_energy_id
+
+  # SPOTREBA / vlastni
+  gw_custom_consumption:
+    source: sensor.today_load
+    name: "gw_custom_consumption_ha"
+    unique_id: gw_custom_consumption_id
+
+  # IMPORT ENERGY / vlastni
+  gw_custom_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_custom_import_energy_ha"
+    unique_id: gw_custom_import_energy_id
+
+  # EXPORT ENERGY / vlastni
+  gw_custom_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_custom_export_energy_ha"
+    unique_id: gw_custom_export_energy_id
+
+  # IMPORT CENA / vlastni
+  gw_custom_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_custom_import_price_ha"
+    unique_id: gw_custom_import_price_id
+
+  # EXPORT CENA / vlastni
+  gw_custom_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_custom_export_price_ha"
+    unique_id: gw_custom_export_price_spot_id
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / vlastni - round
+      - name: "Vyrobeno / vlastni"
+        unique_id: "vyrobeno_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_custom_solar_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_solar_energy_ha')) }}"
+        
+        # NABITO / vlastni - round
+      - name: "Nabito / vlastni"
+        unique_id: "nabito_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_custom_battery_in_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_battery_in_energy_ha')) }}"
+        
+        # VYBITO / vlastni - round
+      - name: "Vybito / vlastni"
+        unique_id: "vybito_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_custom_battery_out_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_battery_out_energy_ha')) }}"
+        
+      # SPOTREBA / vlastni - round
+      - name: "Spotřeba / vlastni"
+        unique_id: "spotreba_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_custom_consumption_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_consumption_ha')) }}"
+        
+        # IMPORT / vlastni - round
+      - name: "Import / vlastni"
+        unique_id: "import_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_custom_import_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_import_energy_ha')) }}"
+        
+        # EXPORT / vlastni - round
+      - name: "Export / vlastni"
+        unique_id: "export_vlastni_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_custom_export_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_export_energy_ha')) }}"
+        
+        # KOUPENO / vlastni - round
+      - name: "Koupeno / vlastni"
+        unique_id: "koupeno_vlastni_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_custom_import_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_import_price_ha')) }}"
+        
+        # PRODANO / vlastni - round
+      - name: "Prodáno / vlastni"
+        unique_id: "prodano_vlastni_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_custom_export_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_custom_export_price_ha')) }}"
+        
+        
+        
+        
+        

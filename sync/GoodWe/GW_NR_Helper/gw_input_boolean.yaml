@@ -1,0 +1,28 @@
+input_boolean:
+  nr_cond_block_export_negative_spot:
+    name: nr_cond_block_export_negative_spot
+
+  nr_cond_block_battery_good_price:
+    name: nr_cond_block_battery_good_price
+
+  ## NOTIFIKACE ###################################
+
+  nr_cond_notify_block_export_negative_spot:
+    name: nr_notify_block_export_negative_spot
+
+  nr_cond_notify_block_battery_good_price:
+    name: nr_notify_block_battery_good_price
+#   fve_spotreba_nad_1000w_podminka:
+#     name: fve_spotreba_nad_1000w_podminka
+
+#   fve_blokace_baterie_dopoledne_spot:
+#     name: fve_blokace_baterie_dopoledne_spot
+
+#   fve_blokace_pretoku_zaporny_spot:
+#     name: fve_blokace_pretoku_zaporny_spot
+
+#   fve_auto_nabijeni_baterie_pri_zapornem_spotu:
+#     name: fve_auto_nabijeni_baterie_pri_zapornem_spotu
+
+#   ## NOTIFY CONDITIONS ####################
+

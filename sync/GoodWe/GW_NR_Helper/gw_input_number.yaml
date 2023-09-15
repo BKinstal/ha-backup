@@ -1,0 +1,41 @@
+input_number:
+  nr_export_limit:
+    name: "NR Export Limit"
+    min: 0
+    max: 15000
+    step: 100
+    unit_of_measurement: "W"
+
+  nr_dept_of_discharge_normal:
+    name: "NR Depth of Discharge Normal"
+    min: 0
+    max: 90
+    step: 1
+    unit_of_measurement: "%"
+
+  nr_export_sales_tax_kwh:
+    name: "NR Export Sales TAX kWh"
+    min: 0
+    max: 1
+    step: 0.1
+    unit_of_measurement: "Kč"
+
+  nr_import_sales_tax_kwh:
+    name: "NR Export Sales TAX kWh"
+    min: 0
+    max: 1
+    step: 0.1
+    unit_of_measurement: "Kč"
+
+  nr_export_minimal_price:
+    name: "NR Export Minimal Price"
+    min: 0
+    max: 10
+    step: 0.1
+    unit_of_measurement: "Kč"
+
+  nr_export_minimal_hour_order:
+    name: "NR Export Minimal Hour Order"
+    min: 0
+    max: 24
+    step: 1

@@ -1,0 +1,128 @@
+utility_meter:
+  # VYROBENO / celkem
+  gw_total_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_total_solar_energy_ha"
+    unique_id: gw_total_solar_energy_id
+
+  # NABITO / celkem
+  gw_total_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_total_battery_in_energy_ha"
+    unique_id: gw_total_battery_in_energy_id
+
+  # VYBITO / celkem
+  gw_total_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_total_battery_out_energy_ha"
+    unique_id: gw_total_battery_out_energy_id
+
+  # SPOTREBA / celkem
+  gw_total_consumption:
+    source: sensor.today_load
+    name: "gw_total_consumption_ha"
+    unique_id: gw_total_consumption_id
+
+  # IMPORT ENERGY / celkem
+  gw_total_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_total_import_energy_ha"
+    unique_id: gw_total_import_energy_id
+
+  # EXPORT ENERGY / celkem
+  gw_total_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_total_export_energy_ha"
+    unique_id: gw_total_export_energy_id
+
+  # IMPORT CENA / celkem
+  gw_total_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_total_import_price_ha"
+    unique_id: gw_total_import_price_id
+
+  # EXPORT CENA / celkem
+  gw_total_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_total_export_price_ha"
+    unique_id: gw_total_export_price_spot_id
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / celkem - round
+      - name: "Vyrobeno / celkem"
+        unique_id: "vyrobeno_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_total_solar_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_solar_energy_ha')) }}"
+        
+        # NABITO / celkem - round
+      - name: "Nabito / celkem"
+        unique_id: "nabito_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_total_battery_in_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_battery_in_energy_ha')) }}"
+        
+        # VYBITO / celkem - round
+      - name: "Vybito / celkem"
+        unique_id: "vybito_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_total_battery_out_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_battery_out_energy_ha')) }}"
+        
+      # SPOTREBA / celkem - round
+      - name: "Spotřeba / celkem"
+        unique_id: "spotreba_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_total_consumption_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_consumption_ha')) }}"
+        
+        # IMPORT / celkem - round
+      - name: "Import / celkem"
+        unique_id: "import_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_total_import_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_import_energy_ha')) }}"
+        
+        # EXPORT / celkem - round
+      - name: "Export / celkem"
+        unique_id: "export_celkem_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_total_export_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_export_energy_ha')) }}"
+        
+        # KOUPENO / celkem - round
+      - name: "Koupeno / celkem"
+        unique_id: "koupeno_celkem_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_total_import_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_import_price_ha')) }}"
+        
+        # PRODANO / celkem - round
+      - name: "Prodáno / celkem"
+        unique_id: "prodano_celkem_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_total_export_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_total_export_price_ha')) }}"
+        
+        
+        
+        
+        

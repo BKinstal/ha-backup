@@ -1,0 +1,25 @@
+sensor:
+  - platform: template
+    sensors:
+      # Template sensor for values of energy bought (active_power < 0)
+      gw_power_import:
+        device_class: power
+        friendly_name: "gw_power_import"
+        unit_of_measurement: "W"
+        value_template: >-
+          {% if states('sensor.goodwe_active_power')|float < 0 %}
+            {{ states('sensor.goodwe_active_power')|float * -1 }}
+          {% else %}
+            {{ 0 }}
+          {% endif %}
+      # Template sensor for values of energy sold (active_power > 0)
+      gw_power_export:
+        device_class: power
+        friendly_name: "gw_power_export"
+        unit_of_measurement: "W"
+        value_template: >-
+          {% if states('sensor.goodwe_active_power')|float > 0 %}
+            {{ states('sensor.goodwe_active_power')|float }}
+          {% else %}
+            {{ 0 }}
+          {% endif %}

@@ -1,0 +1,23 @@
+input_text:
+  # VIRTUALNI SENZOR AKTUALNIHO REZIMU FVE PRO AUTOMATIZACE
+  gw_fve_status_set:
+    name: "gw_fve_status_set"
+
+  # VIRTUALNI SENZOR AKTUALNIHO REZIMU PRETOKU PRO AUTOMATIZACE
+  gw_fve_pretoky_status_set:
+    name: "gw_fve_pretoky_status_set"
+
+template:
+  # VIRTUALNI SENZOR AKTUALNIHO REZIMU FVE PRO AUTOMATIZACE
+  - sensor:
+      - name: "gw_fve_status_sensor"
+        unique_id: gw_fve_status_sensor
+        # state_class: measurement
+        state: "{{ states('input_text.gw_fve_status_set') }}"
+
+  # VIRTUALNI SENZOR AKTUALNIHO REZIMU PRETOKU PRO AUTOMATIZACE
+  - sensor:
+      - name: "gw_fve_pretoky_status_sensor"
+        unique_id: gw_fve_pretoky_status_sensor
+        # state_class: measurement
+        state: "{{ states('input_text.gw_fve_pretoky_status_set') }}"

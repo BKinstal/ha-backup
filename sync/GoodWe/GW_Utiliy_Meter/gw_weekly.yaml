@@ -1,0 +1,132 @@
+utility_meter:
+  # VYROBENO / týden
+  gw_weekly_solar_energy:
+    source: sensor.total_pv_generation
+    name: "gw_weekly_solar_energy_ha"
+    unique_id: gw_weekly_solar_energy_id
+    cycle: weekly
+
+  # NABITO / týden
+  gw_weekly_battery_in_energy:
+    source: sensor.total_battery_charge
+    name: "gw_weekly_battery_in_energy_ha"
+    unique_id: gw_weekly_battery_in_energy_id
+    cycle: weekly
+
+  # VYBITO / týden
+  gw_weekly_battery_out_energy:
+    source: sensor.total_battery_discharge
+    name: "gw_weekly_battery_out_energy_ha"
+    unique_id: gw_weekly_battery_out_energy_id
+    cycle: weekly
+
+  # SPOTREBA / týden
+  gw_weekly_consumption:
+    source: sensor.today_load
+    name: "gw_weekly_consumption_ha"
+    unique_id: gw_weekly_consumption_id
+    cycle: weekly
+
+  # IMPORT ENERGY / týden
+  gw_weekly_import_energy:
+    source: sensor.meter_total_energy_import
+    name: "gw_weekly_import_energy_ha"
+    unique_id: gw_weekly_import_energy_id
+    cycle: weekly
+
+  # EXPORT ENERGY / týden
+  gw_weekly_export_energy:
+    source: sensor.meter_total_energy_export
+    name: "gw_weekly_export_energy_ha"
+    unique_id: gw_weekly_export_energy_id
+    cycle: weekly
+
+  # IMPORT CENA / týden
+  gw_weekly_import_price:
+    source: sensor.meter_total_energy_import_cost
+    name: "gw_weekly_import_price_ha"
+    unique_id: gw_weekly_import_price_id
+    cycle: weekly
+
+  # EXPORT CENA / týden
+  gw_weekly_export_price:
+    source: sensor.meter_total_energy_export_compensation
+    name: "gw_weekly_export_price_ha"
+    unique_id: gw_weekly_export_price_spot_id
+    cycle: weekly
+
+## UPRAVA DESETINEHO MISTA A JEDNOTEK PRO LOVELACE
+template: # https://www.home-assistant.io/integrations/sensor/
+  - sensor:
+      # VYROBA / týden - round
+      - name: "Vyrobeno / týden"
+        unique_id: "vyrobeno_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:solar-power
+        state: "{{(states.sensor.gw_weekly_solar_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_solar_energy_ha')) }}"
+
+        # NABITO / týden - round
+      - name: "Nabito / týden"
+        unique_id: "nabito_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-positive
+        state: "{{(states.sensor.gw_weekly_battery_in_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_battery_in_energy_ha')) }}"
+
+        # VYBITO / týden - round
+      - name: "Vybito / týden"
+        unique_id: "vybito_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:battery-negative
+        state: "{{(states.sensor.gw_weekly_battery_out_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_battery_out_energy_ha')) }}"
+
+      # SPOTREBA / týden - round
+      - name: "Spotřeba / týden"
+        unique_id: "spotreba_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-lightning-bolt-outline
+        state: "{{(states.sensor.gw_weekly_consumption_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_consumption_ha')) }}"
+
+        # IMPORT / týden - round
+      - name: "Import / týden"
+        unique_id: "import_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_weekly_import_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_import_energy_ha')) }}"
+
+        # EXPORT / týden - round
+      - name: "Export / týden"
+        unique_id: "export_tyden_round"
+        unit_of_measurement: "kWh"
+        device_class: energy
+        icon: mdi:home-import-outline
+        state: "{{(states.sensor.gw_weekly_export_energy_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_export_energy_ha')) }}"
+
+        # KOUPENO / týden - round
+      - name: "Koupeno / týden"
+        unique_id: "koupeno_tyden_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_weekly_import_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_import_price_ha')) }}"
+
+        # PRODANO / týden - round
+      - name: "Prodáno / týden"
+        unique_id: "prodano_tyden_round"
+        unit_of_measurement: "Kč"
+        device_class: monetary
+        icon: mdi:currency-usd
+        state: "{{(states.sensor.gw_weekly_export_price_ha.state) | float | round(0)}}"
+        availability: "{{ is_number(states('sensor.gw_weekly_export_price_ha')) }}"
+
