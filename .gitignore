@@ -1,0 +1,6 @@
+# Ignoruj vše
+*
+# Ale umožňuj explicitní přidání souborů/složek
+!*/
+!.gitignore
+!.scripts.yaml
