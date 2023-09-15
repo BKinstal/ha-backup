@@ -12,8 +12,3 @@ git fetch origin
 # Resetujeme lokální master větev na vzdálenou master větev
 git reset --hard origin/master
 
-# Přidání zpoždění 10 sekund
-sleep 10
-
-# Spuštění scriptu update.sh
-./update.sh
