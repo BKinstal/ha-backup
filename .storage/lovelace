@@ -4,32 +4,1342 @@
   "key": "lovelace",
   "data": {
     "config": {
-      "title": "Domov",
       "views": [
         {
-          "path": "default_view",
           "title": "Home",
+          "icon": "mdi:solar-power-variant",
+          "badges": [],
           "cards": [
             {
               "type": "entities",
               "entities": [
-                "person.admin"
+                {
+                  "entity": "sensor.gw_fve_status_sensor",
+                  "name": "Režim"
+                },
+                {
+                  "entity": "sensor.gw_fve_pretoky_status_sensor",
+                  "name": "Přetoky"
+                }
               ]
             },
             {
-              "type": "media-control",
-              "entity": "media_player.nest"
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "hours_to_show": 48,
+                  "graph": "line",
+                  "type": "sensor",
+                  "entity": "sensor.active_power_l1",
+                  "detail": 2,
+                  "name": "L1"
+                },
+                {
+                  "hours_to_show": 48,
+                  "graph": "line",
+                  "type": "sensor",
+                  "entity": "sensor.active_power_l2",
+                  "detail": 2,
+                  "name": "L2"
+                },
+                {
+                  "hours_to_show": 48,
+                  "graph": "line",
+                  "type": "sensor",
+                  "entity": "sensor.active_power_l3",
+                  "detail": 2,
+                  "name": "L3"
+                }
+              ]
+            },
+            {
+              "type": "custom:power-flow-card-plus",
+              "entities": {
+                "battery": {
+                  "entity": "sensor.battery_power",
+                  "state_of_charge": "sensor.battery_state_of_charge"
+                },
+                "grid": {
+                  "entity": "sensor.active_power",
+                  "name": "Síť",
+                  "invert_state": true
+                },
+                "solar": {
+                  "entity": "sensor.pv_power",
+                  "display_zero_state": true,
+                  "name": "Panely"
+                },
+                "home": {
+                  "entity": "sensor.load",
+                  "name": "Dům",
+                  "override_state": true
+                },
+                "fossil_fuel_percentage": {},
+                "individual1": {
+                  "entity": "sensor.shellypro1pm_30c6f78bb14c_switch_0_power",
+                  "name": "Bojler",
+                  "icon": "mdi:water-boiler",
+                  "display_zero": true,
+                  "secondary_info": {
+                    "entity": "switch.shellypro1pm_30c6f78bb14c_switch_0"
+                  },
+                  "inverted_animation": true
+                }
+              },
+              "clickable_entities": true,
+              "display_zero_lines": {
+                "mode": "show",
+                "transparency": 50,
+                "grey_color": [
+                  189,
+                  189,
+                  189
+                ]
+              },
+              "use_new_flow_rate_model": true,
+              "w_decimals": 0,
+              "kw_decimals": 1,
+              "min_flow_rate": 0.75,
+              "max_flow_rate": 6,
+              "max_expected_power": 2000,
+              "min_expected_power": 0.01,
+              "watt_threshold": 1000
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "stacked": true,
+              "apex_config": {
+                "chart": {
+                  "height": "170px"
+                }
+              },
+              "graph_span": "7d",
+              "span": {
+                "end": "day"
+              },
+              "show": {
+                "last_updated": true
+              },
+              "header": {
+                "show": true,
+                "show_states": true,
+                "colorize_states": true
+              },
+              "series": [
+                {
+                  "entity": "sensor.import_den",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": false
+                  },
+                  "type": "column",
+                  "name": "Nákup",
+                  "color": "red",
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                },
+                {
+                  "entity": "sensor.vyrobeno_den",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": false
+                  },
+                  "type": "column",
+                  "name": "Výroba",
+                  "color": "green",
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                },
+                {
+                  "entity": "sensor.export_den",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": false
+                  },
+                  "type": "column",
+                  "name": "Prodej",
+                  "color": "blue",
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                },
+                {
+                  "entity": "sensor.spotreba_den",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": false
+                  },
+                  "type": "column",
+                  "name": "Spotřeba",
+                  "color": "orange",
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "custom:plotly-graph",
+              "entities": [
+                {
+                  "entity": "sensor.pv_power",
+                  "name": "Výroba",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(9, 93, 200, 1)",
+                    "width": 0.4
+                  }
+                },
+                {
+                  "entity": "sensor.active_power",
+                  "name": "Přetoky",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "FF9A00",
+                    "width": 0.4
+                  }
+                },
+                {
+                  "entity": "sensor.house_consumption",
+                  "name": "Spotřeba",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(255, 201, 0, 1",
+                    "width": 1
+                  }
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order",
+                  "name": "Spot",
+                  "line": {
+                    "color": "red",
+                    "width": 1
+                  }
+                },
+                {
+                  "entity": "sensor.battery_power",
+                  "name": "Baterie",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(0, 128, 0, 1)",
+                    "width": 0.8
+                  }
+                }
+              ],
+              "hours_to_show": 12,
+              "refresh_interval": 10,
+              "defaults": {
+                "animate": true,
+                "yaxes": {
+                  "fixedrange": true
+                },
+                "refresh_interval": 10
+              },
+              "layout": {
+                "paper_bgcolor": "transparent",
+                "plot_bgcolor": "transparent",
+                "xaxis": {
+                  "rangeselector": {
+                    "y": 1.25,
+                    "buttons": [
+                      {
+                        "count": 10,
+                        "step": "minute"
+                      },
+                      {
+                        "count": 1,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 3,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 6,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 12,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 1,
+                        "step": "day"
+                      },
+                      {
+                        "count": 3,
+                        "step": "day"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "stacked": true,
+              "apex_config": {
+                "chart": {
+                  "height": "140px"
+                }
+              },
+              "graph_span": "10d",
+              "span": {
+                "end": "day"
+              },
+              "show": {
+                "last_updated": true
+              },
+              "header": {
+                "show": true,
+                "show_states": true,
+                "colorize_states": true,
+                "title": "Koupeno"
+              },
+              "yaxis": [
+                {
+                  "min": 0,
+                  "max": "~11",
+                  "decimals": 0,
+                  "apex_config": {
+                    "tickAmount": 5
+                  }
+                }
+              ],
+              "series": [
+                {
+                  "entity": "sensor.koupeno_den",
+                  "type": "column",
+                  "name": "Nákup",
+                  "color": "orange",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": true
+                  },
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "stacked": true,
+              "apex_config": {
+                "chart": {
+                  "height": "140px"
+                }
+              },
+              "graph_span": "10d",
+              "span": {
+                "end": "day"
+              },
+              "show": {
+                "last_updated": true
+              },
+              "header": {
+                "show": true,
+                "show_states": true,
+                "colorize_states": true,
+                "title": "Prodáno"
+              },
+              "yaxis": [
+                {
+                  "min": 0,
+                  "max": "~11",
+                  "decimals": 0,
+                  "apex_config": {
+                    "tickAmount": 5
+                  }
+                }
+              ],
+              "series": [
+                {
+                  "entity": "sensor.prodano_den",
+                  "type": "column",
+                  "name": "Prodej",
+                  "color": "orange",
+                  "show": {
+                    "header_color_threshold": true,
+                    "extremas": true
+                  },
+                  "group_by": {
+                    "func": "last",
+                    "duration": "1d"
+                  }
+                }
+              ]
             },
             {
               "type": "entities",
               "entities": [
-                "sensor.hacs"
+                {
+                  "entity": "sensor.vyrobeno_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Výroba",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.vyrobeno_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.spotreba_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Spotřeba",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.spotreba_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.import_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.export_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.koupeno_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Koupeno",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.prodano_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Prodáno",
+                  "state_header": "Den",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_rok",
+                      "name": "Rok"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.predpoved_produkce_dnes",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Předpověď",
+                  "state_header": "Dnes",
+                  "entities": [
+                    {
+                      "entity": "sensor.predpoved_produkce_zitra",
+                      "name": "Zítra"
+                    }
+                  ]
+                }
               ],
-              "title": "Senzor"
+              "title": "Energie"
+            },
+            {
+              "type": "custom:apexcharts-card",
+              "header": {
+                "show": true,
+                "show_states": true,
+                "colorize_states": true
+              },
+              "graph_span": "2d",
+              "span": {
+                "start": "day"
+              },
+              "now": {
+                "show": true,
+                "label": "Now"
+              },
+              "series": [
+                {
+                  "entity": "sensor.current_spot_electricity_price",
+                  "type": "column",
+                  "show": {
+                    "in_header": "raw"
+                  },
+                  "data_generator": "return Object.entries(entity.attributes).map(([date, value], index) => {\n  return [new Date(date).getTime(), value];\n});\n"
+                }
+              ],
+              "yaxis": [
+                {
+                  "min": -2
+                }
+              ]
+            },
+            {
+              "type": "horizontal-stack",
+              "cards": [
+                {
+                  "type": "gauge",
+                  "entity": "sensor.battery_temperature",
+                  "needle": true,
+                  "severity": {
+                    "green": 30,
+                    "yellow": 50,
+                    "red": 60
+                  },
+                  "name": "Baterie",
+                  "max": 80,
+                  "min": 30
+                },
+                {
+                  "type": "gauge",
+                  "entity": "sensor.inverter_temperature_radiator",
+                  "name": "Chladič",
+                  "max": 100,
+                  "min": 30,
+                  "severity": {
+                    "green": 30,
+                    "yellow": 70,
+                    "red": 80
+                  },
+                  "needle": true
+                },
+                {
+                  "type": "gauge",
+                  "entity": "sensor.inverter_temperature_air",
+                  "name": "Střídač",
+                  "max": 100,
+                  "min": 30,
+                  "severity": {
+                    "green": 0,
+                    "yellow": 60,
+                    "red": 70
+                  },
+                  "needle": true
+                }
+              ]
+            },
+            {
+              "type": "weather-forecast",
+              "entity": "weather.forecast_domov",
+              "forecast_type": "legacy"
+            }
+          ]
+        },
+        {
+          "title": "GRAPH",
+          "path": "graph",
+          "icon": "mdi:chart-bar",
+          "badges": [],
+          "cards": [
+            {
+              "type": "energy-date-selection"
+            },
+            {
+              "type": "energy-distribution",
+              "title": "Spotřeba"
+            },
+            {
+              "type": "energy-usage-graph",
+              "title": "Energy Usage"
+            },
+            {
+              "type": "energy-solar-graph",
+              "title": "Solar Production"
+            }
+          ]
+        },
+        {
+          "title": "DATA",
+          "path": "data",
+          "icon": "mdi:counter",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_den",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_den",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_den",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_den",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_den",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_den",
+                      "name": " "
+                    }
+                  ]
+                }
+              ],
+              "title": "Den"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_tyden",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_tyden",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_tyden",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_tyden",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_tyden",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_tyden",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_tyden",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_tyden",
+                      "name": " "
+                    }
+                  ]
+                }
+              ],
+              "title": "Týden"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_mesic",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_mesic",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_mesic",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_mesic",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_mesic",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_mesic",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_mesic",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_mesic",
+                      "name": " "
+                    }
+                  ]
+                }
+              ],
+              "title": "Měsíc"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_rok",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_rok",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_rok",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_rok",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_rok",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_rok",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_rok",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_rok",
+                      "name": " "
+                    }
+                  ]
+                }
+              ],
+              "title": "Rok"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_celkem",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_celkem",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_celkem",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_celkem",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_celkem",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_celkem",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_celkem",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_celkem",
+                      "name": " "
+                    }
+                  ]
+                }
+              ],
+              "title": "Celkem"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.vyrobeno_vlastni",
+                  "name": "Výroba"
+                },
+                {
+                  "entity": "sensor.spotreba_vlastni",
+                  "name": "Spotřeba"
+                },
+                {
+                  "entity": "sensor.nabito_vlastni",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Baterie",
+                  "state_header": "Nabito",
+                  "entities": [
+                    {
+                      "entity": "sensor.vybito_vlastni",
+                      "name": "Vybito"
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.import_vlastni",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Import",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.koupeno_vlastni",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "sensor.export_vlastni",
+                  "type": "custom:multiple-entity-row",
+                  "name": "Export",
+                  "state_header": " ",
+                  "entities": [
+                    {
+                      "entity": "sensor.prodano_vlastni",
+                      "name": " "
+                    }
+                  ]
+                },
+                {
+                  "entity": "script.reset_custom_stats",
+                  "name": "Reset",
+                  "icon": "mdi:delete-alert"
+                }
+              ],
+              "title": "Vlastní"
+            }
+          ]
+        },
+        {
+          "title": "SPOT",
+          "path": "spot",
+          "icon": "mdi:finance",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "type": "section",
+                  "label": "Aktuálně"
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order",
+                  "name": "Váha ceny 0-24"
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_price",
+                  "name": "SPOT"
+                },
+                {
+                  "type": "section",
+                  "label": "Dnes"
+                },
+                {
+                  "entity": "sensor.spot_cheapest_electricity_today",
+                  "name": "Nejlevnější"
+                },
+                {
+                  "entity": "sensor.spot_most_expensive_electricity_today",
+                  "name": "Nejdražší"
+                },
+                {
+                  "type": "section",
+                  "label": "Zítra"
+                },
+                {
+                  "entity": "sensor.spot_cheapest_electricity_tomorrow",
+                  "name": "Nejlevnější"
+                },
+                {
+                  "entity": "sensor.spot_most_expensive_electricity_tomorrow",
+                  "name": "Nejdražší"
+                },
+                {
+                  "entity": "sensor.tomorrow_spot_electricity_hour_order",
+                  "name": "Váha ceny 0-24"
+                }
+              ],
+              "title": "SPOT"
+            },
+            {
+              "type": "history-graph",
+              "entities": [
+                {
+                  "entity": "sun.sun",
+                  "name": "Slunce"
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order",
+                  "name": "SPOT"
+                },
+                {
+                  "entity": "sensor.spot_electricity_is_cheapest_2_hours_block",
+                  "name": "2h"
+                },
+                {
+                  "entity": "sensor.spot_electricity_is_cheapest_3_hours_block",
+                  "name": "3h"
+                },
+                {
+                  "entity": "sensor.spot_electricity_is_cheapest_4_hours_block",
+                  "name": "4h"
+                },
+                {
+                  "entity": "sensor.spot_electricity_is_cheapest_6_hours_block",
+                  "name": "6h"
+                },
+                {
+                  "entity": "sensor.spot_electricity_is_cheapest_8_hours_block",
+                  "name": "8h"
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_price",
+                  "name": "SPOT"
+                },
+                {
+                  "entity": "sensor.solaredge2_m1_ac_power",
+                  "name": "Přetoky"
+                }
+              ],
+              "title": "Nejlevnější blok na SPOTu"
+            },
+            {
+              "type": "custom:plotly-graph",
+              "entities": [
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order"
+                }
+              ],
+              "hours_to_show": 24,
+              "refresh_interval": 10,
+              "title": "Váha spotu (0=nejnižší cena, 24=nejvyšší cena)"
+            }
+          ]
+        },
+        {
+          "title": "PRICE",
+          "path": "price",
+          "icon": "mdi:currency-usd",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "title": "Nákup",
+              "entities": [
+                {
+                  "type": "section",
+                  "label": "SPOT"
+                },
+                {
+                  "entity": "input_boolean.boolean_import_price_is_spot"
+                },
+                {
+                  "entity": "sensor.goodwe_current_spot_electricity_price",
+                  "name": "Aktuální SPOT"
+                },
+                {
+                  "type": "section",
+                  "label": "FIX"
+                },
+                {
+                  "entity": "input_number.price_per_kwh_import",
+                  "name": "Cena za kWh"
+                },
+                {
+                  "entity": "input_number.price_per_distribution",
+                  "name": "Roční distribuce"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "entity": "sensor.import_price_sensor",
+                  "name": "Výsledná cena"
+                },
+                {
+                  "entity": "sensor.koupeno_rok",
+                  "name": "Rok"
+                }
+              ]
+            },
+            {
+              "type": "entities",
+              "title": "Prodej",
+              "entities": [
+                {
+                  "entity": "input_number.nr_export_sales_tax_kwh",
+                  "name": "Poplatek za kWh"
+                },
+                {
+                  "type": "section",
+                  "label": "SPOT"
+                },
+                {
+                  "entity": "input_boolean.boolean_export_price_is_spot"
+                },
+                {
+                  "entity": "sensor.goodwe_current_spot_electricity_price",
+                  "name": "Aktuální SPOT"
+                },
+                {
+                  "type": "section",
+                  "label": "FIX"
+                },
+                {
+                  "entity": "input_number.price_per_kwh_export",
+                  "name": "Cena za export"
+                },
+                {
+                  "type": "divider"
+                },
+                {
+                  "entity": "sensor.export_price_sensor",
+                  "name": "Výsledná cena"
+                },
+                {
+                  "entity": "sensor.prodano_rok",
+                  "name": "Rok"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "POWER",
+          "path": "power",
+          "icon": "mdi:lightning-bolt",
+          "badges": [],
+          "cards": []
+        },
+        {
+          "title": "SETTINGS",
+          "path": "settings",
+          "icon": "mdi:cog",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.gw_fve_status_sensor",
+                  "name": "Stav"
+                },
+                {
+                  "entity": "input_select.gw_inverter_mode",
+                  "name": "Režim"
+                }
+              ],
+              "title": "GoodWe",
+              "show_header_toggle": false
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.gw_fve_pretoky_status_sensor",
+                  "name": "Režim"
+                },
+                {
+                  "entity": "input_select.gw_production_mode",
+                  "name": "Přetoky"
+                },
+                {
+                  "entity": "input_number.nr_export_limit",
+                  "name": "Maximálně"
+                },
+                {
+                  "type": "section",
+                  "label": "Blokace při záporném SPOTu"
+                },
+                {
+                  "entity": "sensor.export_price_sensor",
+                  "name": "Aktuální SPOT"
+                },
+                {
+                  "entity": "input_number.nr_export_minimal_price",
+                  "name": "Neprodávat pod"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_notify_block_export_negative_spot",
+                  "name": "Notifikace o blokaci"
+                }
+              ],
+              "title": "Přetoky"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "input_number.nr_dept_of_discharge_normal",
+                  "name": "Hloubka vybití"
+                },
+                {
+                  "type": "section",
+                  "label": "Blokace baterie (0=min, 24=max cena SPOTu)"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_block_battery_good_price",
+                  "name": "Výhodný SPOT (dopoledne)"
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order",
+                  "name": "Aktuální váha ceny"
+                },
+                {
+                  "entity": "input_number.nr_export_minimal_hour_order",
+                  "name": "Blokovat nad"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_notify_block_battery_good_price",
+                  "name": "Notifikace"
+                }
+              ],
+              "title": "Baterie",
+              "show_header_toggle": false
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "input_select.themes"
+              ],
+              "title": "Vzhled"
+            }
+          ]
+        },
+        {
+          "title": "ADMIN",
+          "path": "admin",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "script.reset_all_stats",
+                  "name": "Den - Rok"
+                },
+                {
+                  "entity": "script.reset_total_stats",
+                  "name": "Celkem"
+                },
+                {
+                  "entity": "script.reset_custom_stats",
+                  "name": "Vlastní"
+                }
+              ],
+              "title": "Reset dat"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "update.home_assistant_core_update"
+                },
+                {
+                  "entity": "update.file_editor_update"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "title": "TRASH",
+          "path": "trash",
+          "badges": [],
+          "cards": [
+            {
+              "type": "grid",
+              "square": false,
+              "columns": 1,
+              "cards": [
+                {
+                  "type": "entities",
+                  "entities": [
+                    "sensor.energy_next_hour",
+                    "sensor.energy_production_today_remaining",
+                    "sensor.energy_current_hour",
+                    "sensor.energy_production_today",
+                    "sensor.energy_production_tomorrow",
+                    "sensor.power_production_now",
+                    "sensor.power_highest_peak_time_today",
+                    "sensor.power_highest_peak_time_tomorrow"
+                  ]
+                },
+                {
+                  "type": "weather-forecast",
+                  "entity": "weather.forecast_domov",
+                  "show_forecast": false
+                }
+              ]
+            },
+            {
+              "type": "custom:plotly-graph",
+              "entities": [
+                {
+                  "entity": "sensor.pv_power",
+                  "name": "Výroba",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(9, 93, 200, 1)",
+                    "width": 0.2
+                  }
+                },
+                {
+                  "entity": "sensor.house_consumption",
+                  "name": "Spotřeba",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(255, 151, 0, 1)",
+                    "width": 0.4
+                  }
+                },
+                {
+                  "entity": "sensor.current_spot_electricity_hour_order",
+                  "name": "Spot",
+                  "line": {
+                    "color": "red",
+                    "width": 0.6
+                  }
+                },
+                {
+                  "entity": "sensor.battery_power",
+                  "name": "Baterie",
+                  "fill": "tozeroy",
+                  "line": {
+                    "color": "rgba(0, 128, 0, 1)",
+                    "width": 0.2
+                  }
+                }
+              ],
+              "hours_to_show": 12,
+              "refresh_interval": 10,
+              "defaults": {
+                "animate": true,
+                "yaxes": {
+                  "fixedrange": true
+                },
+                "refresh_interval": 10
+              },
+              "layout": {
+                "paper_bgcolor": "transparent",
+                "plot_bgcolor": "transparent",
+                "xaxis": {
+                  "rangeselector": {
+                    "y": 1.25,
+                    "buttons": [
+                      {
+                        "count": 10,
+                        "step": "minute"
+                      },
+                      {
+                        "count": 1,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 3,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 6,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 12,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 1,
+                        "step": "day"
+                      },
+                      {
+                        "count": 3,
+                        "step": "day"
+                      }
+                    ]
+                  }
+                }
+              }
             }
           ]
         }
-      ]
+      ],
+      "title": "FVE"
     }
   }
 }
