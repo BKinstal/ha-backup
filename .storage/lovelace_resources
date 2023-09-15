@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "896b341def3942638a723c49ca5a3aac",
+        "url": "/hacsfiles/lovelace-plotly-graph-card/plotly-graph-card.js?hacstag=413812496333",
+        "type": "module"
+      },
+      {
+        "id": "fe491267de884dc8842fd31f7e37e585",
+        "url": "/hacsfiles/apexcharts-card/apexcharts-card.js?hacstag=331701152204",
+        "type": "module"
+      },
+      {
+        "id": "c8b9bb1f15bd4424956da844ea654f52",
+        "url": "/hacsfiles/power-flow-card-plus/power-flow-card-plus.js?hacstag=618081815017",
+        "type": "module"
+      },
+      {
+        "id": "4e349440c5394bc6b30ad5ffa5ad4ef5",
+        "url": "/hacsfiles/mini-graph-card/mini-graph-card-bundle.js?hacstag=1512800620110",
+        "type": "module"
+      },
+      {
+        "id": "14727b3fee904980b3264e5eaf893275",
+        "url": "/hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js?hacstag=178921037450",
+        "type": "module"
+      },
+      {
+        "id": "4925638c25aa4394a36583680da4844a",
+        "url": "/hacsfiles/lovelace-auto-entities/auto-entities.js?hacstag=1677445841121",
+        "type": "module"
+      }
+    ]
+  }
+}

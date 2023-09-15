@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "energy",
+  "data": {
+    "energy_sources": [
+      {
+        "type": "grid",
+        "flow_from": [
+          {
+            "stat_energy_from": "sensor.meter_total_energy_import",
+            "stat_cost": null,
+            "entity_energy_price": "sensor.import_price_sensor",
+            "number_energy_price": null
+          }
+        ],
+        "flow_to": [
+          {
+            "stat_energy_to": "sensor.meter_total_energy_export",
+            "stat_compensation": null,
+            "entity_energy_price": "sensor.export_price_sensor",
+            "number_energy_price": null
+          }
+        ],
+        "cost_adjustment_day": 0.0
+      },
+      {
+        "type": "solar",
+        "stat_energy_from": "sensor.total_pv_generation",
+        "config_entry_solar_forecast": [
+          "755451debf2dd9bad8f92ada6fbb66ea"
+        ]
+      },
+      {
+        "type": "battery",
+        "stat_energy_from": "sensor.total_battery_discharge",
+        "stat_energy_to": "sensor.total_battery_charge"
+      }
+    ],
+    "device_consumption": []
+  }
+}

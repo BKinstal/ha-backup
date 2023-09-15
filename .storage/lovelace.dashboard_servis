@@ -1,0 +1,685 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_servis",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "TESTING",
+          "path": "testing",
+          "badges": [],
+          "cards": [
+            {
+              "type": "custom:power-flow-card-plus",
+              "entities": {
+                "battery": {
+                  "entity": "sensor.battery_power",
+                  "state_of_charge": "sensor.battery_state_of_charge"
+                },
+                "grid": {
+                  "entity": "sensor.active_power",
+                  "name": "Síť",
+                  "invert_state": true
+                },
+                "solar": {
+                  "entity": "sensor.pv_power",
+                  "display_zero_state": true,
+                  "name": "Panely"
+                },
+                "home": {
+                  "entity": "sensor.load",
+                  "name": "Dům",
+                  "override_state": true
+                },
+                "fossil_fuel_percentage": {},
+                "individual1": {
+                  "entity": "sensor.shellypro1pm_30c6f78bb14c_switch_0_power",
+                  "name": "Bojler",
+                  "icon": "mdi:water-boiler",
+                  "display_zero": true,
+                  "secondary_info": {
+                    "entity": "switch.shellypro1pm_30c6f78bb14c_switch_0"
+                  },
+                  "inverted_animation": true
+                }
+              },
+              "clickable_entities": true,
+              "display_zero_lines": {
+                "mode": "show",
+                "transparency": 50,
+                "grey_color": [
+                  189,
+                  189,
+                  189
+                ]
+              },
+              "use_new_flow_rate_model": true,
+              "w_decimals": 0,
+              "kw_decimals": 1,
+              "min_flow_rate": 0.75,
+              "max_flow_rate": 6,
+              "max_expected_power": 2000,
+              "min_expected_power": 0.01,
+              "watt_threshold": 1000
+            },
+            {
+              "type": "custom:plotly-graph",
+              "entities": [
+                {
+                  "entity": "sensor.pv_power",
+                  "name": "Výroba",
+                  "line": {
+                    "color": "rgba(9, 93, 200, 1)"
+                  }
+                },
+                {
+                  "entity": "sensor.active_power",
+                  "name": "Přetoky",
+                  "line": {
+                    "color": "FF9A00"
+                  }
+                },
+                {
+                  "entity": "sensor.house_consumption",
+                  "name": "Spotřeba",
+                  "line": {
+                    "color": "rgba(255, 201, 0, 1"
+                  }
+                },
+                {
+                  "entity": "sensor.battery_power",
+                  "name": "Baterie",
+                  "line": {
+                    "color": "rgba(0, 128, 0, 1)"
+                  }
+                }
+              ],
+              "hours_to_show": 12,
+              "refresh_interval": 10,
+              "defaults": {
+                "entity": {
+                  "fill": "tozeroy",
+                  "line": {
+                    "width": 0.4
+                  }
+                },
+                "yaxes": {
+                  "fixedrange": true
+                }
+              },
+              "layout": {
+                "xaxis": {
+                  "rangeselector": {
+                    "y": 1.25,
+                    "buttons": [
+                      {
+                        "count": 10,
+                        "step": "minute"
+                      },
+                      {
+                        "count": 1,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 3,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 6,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 12,
+                        "step": "hour"
+                      },
+                      {
+                        "count": 1,
+                        "step": "day"
+                      },
+                      {
+                        "count": 3,
+                        "step": "day"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "number.depth_of_discharge_on_grid",
+                "number.eco_mode_power",
+                "number.eco_mode_soc",
+                "number.grid_export_limit",
+                "select.inverter_operation_mode",
+                "switch.load_control",
+                "button.synchronize_inverter_clock"
+              ],
+              "title": "GoodWe"
+            }
+          ]
+        },
+        {
+          "title": "FVE",
+          "path": "fve",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.gw_fve_status_sensor",
+                  "name": "Režim"
+                },
+                {
+                  "entity": "input_select.gw_inverter_mode",
+                  "name": "Režim"
+                },
+                {
+                  "entity": "sensor.gw_fve_pretoky_status_sensor",
+                  "name": "Režim přetoků"
+                },
+                {
+                  "entity": "input_select.gw_production_mode",
+                  "name": "Přetoky"
+                }
+              ],
+              "title": "GoodWe"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "type": "section",
+                  "label": "Přetoky"
+                },
+                {
+                  "entity": "input_number.nr_export_limit",
+                  "name": "Limit"
+                },
+                {
+                  "type": "section",
+                  "label": "Baterie"
+                },
+                {
+                  "entity": "input_number.nr_dept_of_discharge_normal",
+                  "name": "Hloubka vybití"
+                },
+                {
+                  "type": "section",
+                  "label": "Prodej"
+                },
+                {
+                  "entity": "input_number.nr_export_sales_tax_kwh",
+                  "name": "Poplatek za kWh"
+                },
+                {
+                  "type": "section",
+                  "label": "Výhodný SPOT"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_block_battery_good_price",
+                  "name": "Blokace baterie (dopoledne)"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_notify_block_battery_good_price",
+                  "name": "Notifikace"
+                }
+              ],
+              "title": "Automatizace"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.gw_fve_pretoky_status_sensor",
+                  "name": "Režim"
+                },
+                {
+                  "entity": "input_select.gw_production_mode",
+                  "name": "Přetoky"
+                },
+                {
+                  "entity": "input_number.nr_export_limit",
+                  "name": "Maximálně"
+                },
+                {
+                  "type": "section",
+                  "label": "Blokace při záporném SPOTu"
+                },
+                {
+                  "entity": "sensor.export_price_sensor",
+                  "name": "Aktuální SPOT"
+                },
+                {
+                  "entity": "input_number.nr_export_minimal_price",
+                  "name": "Neprodávat pod"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_notify_block_export_negative_spot",
+                  "name": "Notifikace"
+                }
+              ],
+              "title": "Přetoky"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "input_number.nr_dept_of_discharge_normal",
+                  "name": "Hloubka vybití"
+                },
+                {
+                  "type": "section",
+                  "label": "Výhodný SPOT"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_block_battery_good_price",
+                  "name": "Blokace baterie (dopoledne)"
+                },
+                {
+                  "entity": "input_boolean.nr_cond_notify_block_battery_good_price",
+                  "name": "Notifikace"
+                }
+              ],
+              "title": "Baterie"
+            }
+          ]
+        },
+        {
+          "title": "POWER",
+          "path": "admin_power",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "entity": "sensor.house_consumption"
+                },
+                {
+                  "entity": "sensor.total_power"
+                },
+                {
+                  "entity": "sensor.active_power"
+                },
+                {
+                  "entity": "sensor.active_power_total"
+                },
+                {
+                  "entity": "sensor.active_power_l1"
+                },
+                {
+                  "entity": "sensor.active_power_l2"
+                },
+                {
+                  "entity": "sensor.active_power_l3"
+                },
+                {
+                  "entity": "sensor.battery_power"
+                },
+                {
+                  "entity": "sensor.battery_mode"
+                },
+                {
+                  "entity": "sensor.battery_state_of_charge"
+                }
+              ],
+              "title": "Power"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.pv_power",
+                "sensor.pv1_power",
+                "sensor.pv2_power"
+              ],
+              "title": "Panels"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.on_grid_l1_power",
+                "sensor.on_grid_l2_power",
+                "sensor.on_grid_l3_power"
+              ],
+              "title": "Grid power"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.meter_active_power_total",
+                "sensor.meter_active_power_l1",
+                "sensor.meter_active_power_l2",
+                "sensor.meter_active_power_l3"
+              ],
+              "title": "Active Power"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.load",
+                "sensor.load_l1",
+                "sensor.load_l2",
+                "sensor.load_l3"
+              ],
+              "title": "Load"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.back_up_load",
+                "sensor.back_up_l1_power",
+                "sensor.back_up_l2_power",
+                "sensor.back_up_l3_power"
+              ],
+              "title": "Backup"
+            }
+          ]
+        },
+        {
+          "title": "ENERGY",
+          "path": "admin_energy",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                {
+                  "type": "section",
+                  "label": "Total"
+                },
+                {
+                  "entity": "sensor.total_pv_generation"
+                },
+                {
+                  "entity": "sensor.meter_total_energy_import"
+                },
+                {
+                  "entity": "sensor.meter_total_energy_export"
+                },
+                {
+                  "entity": "sensor.total_energy_export"
+                },
+                {
+                  "entity": "sensor.total_battery_charge"
+                },
+                {
+                  "entity": "sensor.total_battery_discharge"
+                },
+                {
+                  "type": "section",
+                  "label": "Today"
+                },
+                {
+                  "entity": "sensor.today_s_pv_generation"
+                },
+                {
+                  "entity": "sensor.today_load"
+                },
+                {
+                  "entity": "sensor.today_energy_import"
+                },
+                {
+                  "entity": "sensor.today_energy_export"
+                },
+                {
+                  "entity": "sensor.today_battery_charge"
+                },
+                {
+                  "entity": "sensor.today_battery_discharge"
+                }
+              ],
+              "title": "GoodWe"
+            }
+          ]
+        },
+        {
+          "title": "ALL",
+          "path": "admin_all",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.active_power",
+                "sensor.battery_state_of_charge",
+                "sensor.house_consumption",
+                "sensor.meter_total_energy_export",
+                "sensor.meter_total_energy_import",
+                "sensor.pv_power",
+                "sensor.today_s_pv_generation",
+                "sensor.total_battery_discharge",
+                "sensor.total_battery_charge",
+                "sensor.total_pv_generation"
+              ],
+              "title": "GoodWe"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "number.depth_of_discharge_on_grid",
+                "number.eco_mode_power",
+                "number.eco_mode_soc",
+                "number.grid_export_limit",
+                "select.inverter_operation_mode",
+                "switch.load_control",
+                "button.synchronize_inverter_clock"
+              ],
+              "title": "GoodWe"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.active_power_l1",
+                "sensor.active_power_l2",
+                "sensor.active_power_l3",
+                "sensor.active_power_total",
+                "sensor.apparent_power",
+                "sensor.back_up_l1_current",
+                "sensor.back_up_l1_frequency",
+                "sensor.back_up_l1_power",
+                "sensor.back_up_l1_voltage",
+                "sensor.back_up_l2_current",
+                "sensor.back_up_l2_frequency",
+                "sensor.back_up_l2_power",
+                "sensor.back_up_l2_voltage",
+                "sensor.back_up_l3_current",
+                "sensor.back_up_l3_frequency",
+                "sensor.back_up_l3_power",
+                "sensor.back_up_l3_voltage",
+                "sensor.back_up_load",
+                "sensor.battery_bms",
+                "sensor.battery_current",
+                "sensor.battery_discharge_limit",
+                "sensor.battery_error",
+                "sensor.battery_error_h",
+                "sensor.battery_error_l",
+                "sensor.battery_hardware_version",
+                "sensor.battery_charge_limit",
+                "sensor.battery_index",
+                "sensor.battery_max_cell_temperature",
+                "sensor.battery_max_cell_temperature_id",
+                "sensor.battery_max_cell_voltage",
+                "sensor.battery_max_cell_voltage_id",
+                "sensor.battery_min_cell_temperature",
+                "sensor.battery_min_cell_temperature_id",
+                "sensor.battery_min_cell_voltage",
+                "sensor.battery_min_cell_voltage_id",
+                "sensor.battery_mode",
+                "sensor.battery_mode_code",
+                "sensor.battery_modules",
+                "sensor.battery_power",
+                "sensor.battery_protocol",
+                "sensor.battery_software_version",
+                "sensor.battery_state_of_health",
+                "sensor.battery_status",
+                "sensor.battery_temperature",
+                "sensor.battery_voltage",
+                "sensor.battery_warning",
+                "sensor.battery_warning_h",
+                "sensor.battery_warning_l",
+                "sensor.bus_voltage",
+                "sensor.commode",
+                "sensor.diag_status",
+                "sensor.diag_status_code",
+                "sensor.error_codes",
+                "sensor.errors",
+                "sensor.function_bit",
+                "sensor.grid_mode",
+                "sensor.grid_mode_code",
+                "sensor.hours_total",
+                "sensor.inverter_temperature_air",
+                "sensor.inverter_temperature_module",
+                "sensor.inverter_temperature_radiator",
+                "sensor.load",
+                "sensor.load_l1",
+                "sensor.load_l2",
+                "sensor.load_l3",
+                "sensor.load_mode_l1",
+                "sensor.load_mode_l2",
+                "sensor.load_mode_l3",
+                "sensor.manufacture_code",
+                "sensor.meter_active_power_l1",
+                "sensor.meter_active_power_l2",
+                "sensor.meter_active_power_l3",
+                "sensor.meter_active_power_total",
+                "sensor.meter_apparent_power_l1",
+                "sensor.meter_apparent_power_l2",
+                "sensor.meter_apparent_power_l3",
+                "sensor.meter_apparent_power_total",
+                "sensor.meter_communication_status",
+                "sensor.meter_frequency",
+                "sensor.meter_power_factor",
+                "sensor.meter_power_factor_l1",
+                "sensor.meter_power_factor_l2",
+                "sensor.meter_power_factor_l3",
+                "sensor.meter_reactive_power_l1",
+                "sensor.meter_reactive_power_l2",
+                "sensor.meter_reactive_power_l2_2",
+                "sensor.meter_reactive_power_total",
+                "sensor.meter_software_version",
+                "sensor.meter_test_status",
+                "sensor.meter_type",
+                "sensor.nbus_voltage",
+                "sensor.on_grid_l1_current",
+                "sensor.on_grid_l1_frequency",
+                "sensor.on_grid_l1_power",
+                "sensor.on_grid_l1_voltage",
+                "sensor.on_grid_l2_current",
+                "sensor.on_grid_l2_frequency",
+                "sensor.on_grid_l2_power",
+                "sensor.on_grid_l2_voltage",
+                "sensor.on_grid_l3_current",
+                "sensor.on_grid_l3_frequency",
+                "sensor.on_grid_l3_power",
+                "sensor.on_grid_l3_voltage",
+                "sensor.on_grid_mode",
+                "sensor.on_grid_mode_code",
+                "sensor.operation_mode_code",
+                "sensor.pv1_current",
+                "sensor.pv1_mode",
+                "sensor.pv1_mode_code",
+                "sensor.pv1_power",
+                "sensor.pv1_voltage",
+                "sensor.pv2_current",
+                "sensor.pv2_mode",
+                "sensor.pv2_mode_code",
+                "sensor.pv2_power",
+                "sensor.pv2_voltage",
+                "sensor.reactive_power",
+                "sensor.reactive_power_total",
+                "sensor.rssi",
+                "sensor.safety_country",
+                "sensor.safety_country_code",
+                "sensor.timestamp",
+                "sensor.today_battery_discharge",
+                "sensor.today_battery_charge",
+                "sensor.today_energy_export",
+                "sensor.today_energy_import",
+                "sensor.today_load",
+                "sensor.total_energy_export",
+                "sensor.total_energy_import",
+                "sensor.total_load",
+                "sensor.total_power",
+                "sensor.ups_load",
+                "sensor.warning_code",
+                "sensor.work_mode",
+                "sensor.work_mode_code"
+              ],
+              "title": "GoodWe"
+            }
+          ]
+        },
+        {
+          "title": "SETTINGS",
+          "path": "admin-settings",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "number.depth_of_discharge_on_grid",
+                "number.eco_mode_power",
+                "number.eco_mode_soc",
+                "number.grid_export_limit",
+                "select.inverter_operation_mode",
+                "switch.load_control",
+                "button.synchronize_inverter_clock"
+              ],
+              "title": "GoodWe"
+            }
+          ]
+        },
+        {
+          "title": "STATUS",
+          "path": "admin_status",
+          "badges": [],
+          "cards": [
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.warning_code",
+                "sensor.safety_country",
+                "sensor.safety_country_code",
+                "sensor.work_mode",
+                "sensor.work_mode_code",
+                "sensor.operation_mode_code",
+                "sensor.on_grid_mode",
+                "sensor.on_grid_mode_code",
+                "sensor.pv1_mode",
+                "sensor.pv1_mode_code",
+                "sensor.pv2_voltage",
+                "sensor.meter_type",
+                "sensor.meter_test_status",
+                "sensor.rssi",
+                "sensor.ups_load",
+                "sensor.meter_software_version",
+                "sensor.timestamp"
+              ],
+              "title": "Status"
+            },
+            {
+              "type": "entities",
+              "entities": [
+                "sensor.meter_power_factor",
+                "sensor.meter_power_factor_l1",
+                "sensor.meter_power_factor_l2",
+                "sensor.meter_power_factor_l3",
+                "sensor.meter_reactive_power_l1",
+                "sensor.meter_reactive_power_l2",
+                "sensor.meter_reactive_power_l2_2",
+                "sensor.meter_reactive_power_total",
+                "sensor.reactive_power",
+                "sensor.reactive_power_total"
+              ],
+              "title": "Power"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
